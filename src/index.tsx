@@ -27,7 +27,7 @@ type State = {
   attempts: number;
 };
 
-const cardCount = 4;
+const cardCount = 16;
 const [width, height] = size(cardCount);
 
 const generateCards = (size: number): State["cards"] =>
@@ -190,10 +190,12 @@ const App = () => {
     <div
       ref={ref}
       className={cn(styles.container, { [styles.victory]: victory })}
-      style={{ width: `${width}rem`, height: `${width}rem` }}
     >
       <div className={styles.score}>{state.attempts}</div>
-      <div className={styles.cardContainer}>
+      <div
+        className={styles.cardContainer}
+        style={{ width: `${width}em`, height: `${width}em` }}
+      >
         {state.cards.map((card, cardIndex) => (
           <Card
             key={cardIndex}
