@@ -11,6 +11,7 @@ import cn from "classnames";
 import { Emoji, getRandomEmojiPairs } from "./emojis";
 import "./styles.scss";
 import styles from "./App.scss";
+import { size } from "./size";
 
 type CardIndex = number;
 type Card = {
@@ -23,9 +24,11 @@ type State = {
   flipped: CardIndex[];
   matched: Emoji[];
   cards: Card[];
+  attempts: number;
 };
 
-const [width, height] = [3, 4];
+const cardCount = 4;
+const [width, height] = size(cardCount);
 
 const generateCards = (size: number): State["cards"] =>
   getRandomEmojiPairs(size).map(emoji => ({ emoji }));
@@ -42,7 +45,8 @@ const initialState: State = buildCards({
   height,
   flipped: [],
   matched: [],
-  cards: []
+  cards: [],
+  attempts: 0
 });
 
 type Action = { type: string; payload: any };
@@ -58,27 +62,41 @@ const reducer: Reducer<State, Action> = (state: State, action) => {
 
 const actions: Record<string, (state: State, ...args: any[]) => State> = {
   flip: (state: State, cardIndex: CardIndex): State => {
-    const flipped =
-      state.flipped.length === 2
-        ? [state.flipped[1], cardIndex]
-        : [state.flipped[0], cardIndex];
-
-    const match =
-      state.flipped.length === 2 &&
-      state.cards[flipped[0]].emoji === state.cards[flipped[1]].emoji
-        ? [state.cards[cardIndex].emoji]
-        : [];
-    if (match.length) {
-      console.log(match[0]);
+    const nextState = { ...state, attempts: state.attempts + 1 };
+    if (state.flipped.length === 0) {
+      return { ...nextState, flipped: [cardIndex] };
     }
-
+    const prevIndex = state.flipped[state.flipped.length - 1];
+    if (state.cards[cardIndex].emoji !== state.cards[prevIndex].emoji) {
+      return { ...nextState, flipped: [prevIndex, cardIndex] };
+    }
     return {
-      ...state,
-      flipped,
-      matched: [...state.matched, ...match]
+      ...nextState,
+      flipped: [],
+      matched: [...state.matched, state.cards[cardIndex].emoji]
     };
+    // const flipped =
+    //   state.flipped.length === 2
+    //     ? [state.flipped[1], cardIndex]
+    //     : [state.flipped[0], cardIndex];
+
+    // const match =
+    //   state.flipped.length === 2 &&
+    //   state.cards[flipped[0]].emoji === state.cards[flipped[1]].emoji
+    //     ? [state.cards[cardIndex].emoji]
+    //     : [];
+    // if (match.length) {
+    //   console.log(match[0]);
+    // }
+
+    // return {
+    //   ...state,
+    //   flipped,
+    //   matched: [...state.matched, ...match]
+    // };
   }
 };
+
 type CardProps = {
   card: Card;
   cardIndex: CardIndex;
@@ -167,23 +185,27 @@ const App = () => {
   const ref = useZoom<HTMLDivElement>();
   const [state, dispatch] = useReducer(reducer, initialState);
   const width = state.width * 4;
-  const victory = state.flipped.length === state.cards.length;
+  const victory = state.matched.length * 2 === state.cards.length;
   return (
     <div
       ref={ref}
       className={cn(styles.container, { [styles.victory]: victory })}
-      // style={{ width: `${width}rem`, height: `${width}rem` }}
+      style={{ width: `${width}rem`, height: `${width}rem` }}
     >
-      {state.cards.map((card, cardIndex) => (
-        <Card
-          key={cardIndex}
-          card={card}
-          cardIndex={cardIndex}
-          dispatch={dispatch}
-          isFlipped={state.flipped.includes(cardIndex)}
-          isMatched={state.matched.includes(card.emoji)}
-        />
-      ))}
+      <div className={styles.score}>{state.attempts}</div>
+      <div className={styles.cardContainer}>
+        {state.cards.map((card, cardIndex) => (
+          <Card
+            key={cardIndex}
+            card={card}
+            cardIndex={cardIndex}
+            dispatch={dispatch}
+            isFlipped={state.flipped.includes(cardIndex)}
+            isMatched={state.matched.includes(card.emoji)}
+          />
+        ))}
+      </div>
+      {victory && <div className={styles.victoryText}>You won!</div>}
     </div>
   );
 };

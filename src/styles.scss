@@ -1,14 +1,14 @@
 :root {
   --bg-raw: 238, 238, 238;
   --bg: rgb(var(--bg-raw));
-  --fg: initial;
+  --fg-raw: 0, 0, 0;
+  --fg: rgb(var(--fg-raw));
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-raw: 34, 34, 34;
     --fg-raw: 255, 255, 255;
-    --fg: rgb(var(--fg-raw));
   }
 }
 
