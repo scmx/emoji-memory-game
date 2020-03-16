@@ -61,7 +61,8 @@ const reducer: Reducer<State, Action> = (state: State, action) => {
 };
 
 const actions: Record<string, (state: State, ...args: any[]) => State> = {
-  flip: (state: State, cardIndex: CardIndex): State => {
+  reset: state => initialState,
+  flip: (state, cardIndex: CardIndex): State => {
     const nextState = { ...state, attempts: state.attempts + 1 };
     if (state.flipped.length === 0) {
       return { ...nextState, flipped: [cardIndex] };
@@ -207,7 +208,17 @@ const App = () => {
           />
         ))}
       </div>
-      {victory && <div className={styles.victoryText}>You won!</div>}
+      {victory && (
+        <div className={styles.victory}>
+          You won!
+          <button
+            className={styles.playAgain}
+            onClick={() => dispatch({ type: "reset" })}
+          >
+            Play again
+          </button>
+        </div>
+      )}
     </div>
   );
 };
