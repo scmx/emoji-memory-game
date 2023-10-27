@@ -84,7 +84,6 @@ const getActiveCardIndex = (cardRefs: RefObject<HTMLButtonElement>[]) =>
 
 export const CardContainer: React.FC = () => {
   const state = useSelector((state) => state)
-  const dispatch = useDispatch()
   const ref = useRef<HTMLDivElement>(null)
   const cardRefs = useMemo(
     () => Array.from(state.cards, () => createRef<HTMLButtonElement>()),

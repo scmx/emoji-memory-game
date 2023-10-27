@@ -1,6 +1,5 @@
 /**
  * Find nice width and height of grid for number of cards.
- * @param n
  */
 export const size = (n: number): [number, number] => {
   if (n === 2) {

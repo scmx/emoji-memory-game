@@ -1,12 +1,13 @@
 import { getRandomEmojiPairs, Emoji } from './emojis'
 import { CardIndex, Card } from './Card'
 import { size } from './size'
-import React, {
+import {
   Reducer,
   useReducer,
   createContext,
   Dispatch,
   useContext,
+  ReactNode,
 } from 'react'
 
 const cardCount = 16
@@ -94,9 +95,9 @@ const loggerMiddleware: Middleware = (reducer) => (state, action) => {
 const rootReducer = loggerMiddleware(appReducer)
 
 const StateContext = createContext<State>(getInitialState())
-const DispatchContext = createContext<Dispatch<Action>>((action) => null)
+const DispatchContext = createContext<Dispatch<Action>>((_action) => null)
 
-export const Provider: React.FC = ({ children }) => {
+export function Provider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(rootReducer, getInitialState())
   return (
     <DispatchContext.Provider value={dispatch}>

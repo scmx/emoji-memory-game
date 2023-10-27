@@ -13,7 +13,6 @@ export const getScore = (state: State): string =>
       getTotal(state)) *
       100,
   )}% ${state.attempts} / ${getTotal(state)} Par ${getPar(state)}`
-// state.width * state.height - state.attempts + state.matched.length * 2
 
 export const Score: React.FC = () => {
   const score = useSelector(getScore)
