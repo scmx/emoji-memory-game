@@ -1,0 +1,18 @@
+.victory {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  padding: 0.4rem;
+  font-family: sans-serif;
+  color: var(--fg);
+  background-color: rgba(var(--bg-raw), 0.6);
+  border-radius: 1rem;
+}
+
+.playAgain {
+  padding: 0;
+  background: var(--fg);
+  color: var(--bg);
+  border: 0.1rem solid rgba(var(--fg-raw), 0.5);
+  border-radius: 0.5rem;
+}
