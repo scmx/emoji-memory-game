@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, State } from './Store'
-import styles from './Score.scss'
+import styles from './Score.module.css'
 
 const getTotal = (state: State): number => state.width * state.height
 
@@ -11,7 +11,7 @@ export const getScore = (state: State): string =>
   `${Math.round(
     ((getTotal(state) - state.attempts + state.matched.length * 2) /
       getTotal(state)) *
-      100
+      100,
   )}% ${state.attempts} / ${getTotal(state)} Par ${getPar(state)}`
 // state.width * state.height - state.attempts + state.matched.length * 2
 

@@ -4,7 +4,7 @@ import { useRef, useLayoutEffect } from 'react'
  * Hook for zooming content to fit within container
  */
 export const useZoom = <
-  T extends HTMLElement
+  T extends HTMLElement,
 >(): React.MutableRefObject<T | null> => {
   const ref = useRef<T>(null)
 
@@ -17,9 +17,8 @@ export const useZoom = <
 
       const wd = parent.clientWidth / ref.current.clientWidth
       const hd = parent.clientHeight / ref.current.clientHeight
-      const zoom = (parent.clientWidth > parent.clientHeight
-        ? hd
-        : wd
+      const zoom = (
+        parent.clientWidth > parent.clientHeight ? hd : wd
       ).toString()
 
       ref.current.style.zoom = zoom

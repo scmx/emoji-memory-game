@@ -6,7 +6,7 @@ import React, {
   useReducer,
   createContext,
   Dispatch,
-  useContext
+  useContext,
 } from 'react'
 
 const cardCount = 16
@@ -22,11 +22,11 @@ export type State = {
 }
 
 const generateCards = (size: number): State['cards'] =>
-  getRandomEmojiPairs(size).map(emoji => ({ emoji }))
+  getRandomEmojiPairs(size).map((emoji) => ({ emoji }))
 
 const buildCards = (state: State): State => ({
   ...state,
-  cards: generateCards(state.width * state.height)
+  cards: generateCards(state.width * state.height),
 })
 
 const getInitialState = (): State =>
@@ -36,7 +36,7 @@ const getInitialState = (): State =>
     flipped: [],
     matched: [],
     cards: [],
-    attempts: 0
+    attempts: 0,
   })
 
 type FSA = { type: string; payload?: any; error?: boolean }
@@ -58,7 +58,7 @@ const appReducer: AppReducer = (state, action) => {
       console.log(
         state.width * state.height,
         attempts,
-        state.matched.length * 2
+        state.matched.length * 2,
       )
       const nextState = { ...state, attempts }
       if (state.flipped.length === 0) {
@@ -71,7 +71,7 @@ const appReducer: AppReducer = (state, action) => {
       return {
         ...nextState,
         flipped: [],
-        matched: [...state.matched, state.cards[cardIndex].emoji]
+        matched: [...state.matched, state.cards[cardIndex].emoji],
       }
     }
     default: {
@@ -82,7 +82,7 @@ const appReducer: AppReducer = (state, action) => {
 
 type Middleware = (reducer: AppReducer) => AppReducer
 
-const loggerMiddleware: Middleware = reducer => (state, action) => {
+const loggerMiddleware: Middleware = (reducer) => (state, action) => {
   console.groupCollapsed(action.type, action.payload)
   console.log('before', state)
   const result: State = reducer(state, action)
@@ -94,7 +94,7 @@ const loggerMiddleware: Middleware = reducer => (state, action) => {
 const rootReducer = loggerMiddleware(appReducer)
 
 const StateContext = createContext<State>(getInitialState())
-const DispatchContext = createContext<Dispatch<Action>>(action => null)
+const DispatchContext = createContext<Dispatch<Action>>((action) => null)
 
 export const Provider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(rootReducer, getInitialState())

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useDispatch, useSelector, State } from './Store'
-import styles from './Victory.scss'
+import styles from './Victory.module.css'
 
 export const isVictory = (state: State) =>
   state.matched.length * 2 === state.cards.length
@@ -25,7 +25,8 @@ export const Victory: React.FC = () => {
       <button
         ref={ref}
         className={styles.playAgain}
-        onClick={() => dispatch({ type: 'RESET', payload: null })}>
+        onClick={() => dispatch({ type: 'RESET', payload: null })}
+      >
         Play again
       </button>
     </div>

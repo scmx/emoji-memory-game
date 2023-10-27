@@ -1,16 +1,8 @@
-import React, {
-  Dispatch,
-  useEffect,
-  useRef,
-  useMemo,
-  createRef,
-  Ref,
-  RefObject
-} from 'react'
+import React, { useEffect, useRef, useMemo, createRef, RefObject } from 'react'
 import cn from 'classnames'
 import { Emoji } from './emojis'
 import { State, useSelector, useDispatch } from './Store'
-import styles from './Card.scss'
+import styles from './Card.module.css'
 import { isVictory } from './Victory'
 
 export type CardIndex = number
@@ -22,7 +14,7 @@ type Pos = [number, number]
 const getNextCardPos = (
   [x, y]: Pos,
   [xMax, yMax]: Pos,
-  event: KeyboardEvent
+  event: KeyboardEvent,
 ): Pos => {
   switch (event.code) {
     case 'ArrowLeft':
@@ -41,15 +33,15 @@ const getNextCardPos = (
 const getNextCardIndex = (
   currentCardIndex: number,
   event: KeyboardEvent,
-  state: State
+  state: State,
 ): number => {
   const [x, y] = getNextCardPos(
     [
       currentCardIndex % state.width,
-      Math.floor(currentCardIndex / state.width)
+      Math.floor(currentCardIndex / state.width),
     ],
     [state.width - 1, state.height - 1],
-    event
+    event,
   )
   return x + y * state.width
 }
@@ -70,32 +62,33 @@ export const Card = React.forwardRef<HTMLButtonElement, CardProps>(
         key={cardIndex}
         className={cn(styles.card, {
           [styles.flipped]: isFlipped || isMatched,
-          [styles.matched]: isMatched
+          [styles.matched]: isMatched,
         })}
         onClick={() =>
           !isFlipped &&
           !isMatched &&
           dispatch({ type: 'FLIP', payload: cardIndex })
-        }>
+        }
+      >
         <div className={styles.front}>😶</div>
         <div className={styles.back}>{card.emoji}</div>
       </button>
     )
-  }
+  },
 )
 
 const getActiveCardIndex = (cardRefs: RefObject<HTMLButtonElement>[]) =>
   cardRefs
-    .map(cardRef => cardRef.current)
+    .map((cardRef) => cardRef.current)
     .indexOf(document.activeElement as HTMLButtonElement)
 
 export const CardContainer: React.FC = () => {
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state)
   const dispatch = useDispatch()
   const ref = useRef<HTMLDivElement>(null)
   const cardRefs = useMemo(
     () => Array.from(state.cards, () => createRef<HTMLButtonElement>()),
-    [state.cards.length]
+    [state.cards.length],
   )
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -103,7 +96,7 @@ export const CardContainer: React.FC = () => {
         const nextCardIndex = getNextCardIndex(
           getActiveCardIndex(cardRefs),
           event,
-          state
+          state,
         )
         if (nextCardIndex === -1) {
           return
@@ -129,7 +122,8 @@ export const CardContainer: React.FC = () => {
     <div
       ref={ref}
       className={styles.cardContainer}
-      style={{ width, height: width }}>
+      style={{ width, height: width }}
+    >
       {state.cards.map((card, cardIndex) => (
         <Card
           ref={cardRefs[cardIndex]}

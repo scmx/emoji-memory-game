@@ -1,4 +1,16 @@
-@import "keyframes";
+@import 'keyframes';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  &.victory {
+    animation: grow 0.8s;
+  }
+}
 
 .cardContainer {
   display: flex;
@@ -31,20 +43,20 @@
 
   &.flipped {
     transform: rotateY(180deg);
-    // animation: expandRotated 2s;
+    /* animation: expandRotated 2s; */
     color: rgba(0, 0, 0, 1);
   }
 
   &.matched {
-    // transform: none;
+    /* transform: none; */
     animation: expandRotated 0.8s;
   }
 
-  &.matched .back {
-    // animation-delay: 1s;
-    // animation-duration: 1s;
-    // animation-name: expand;
-  }
+  /*&.matched .back {
+    animation-delay: 1s;
+    animation-duration: 1s;
+    animation-name: expand;
+  }*/
 
   .front,
   .back {

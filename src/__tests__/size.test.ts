@@ -1,3 +1,4 @@
+import { describe, expect, test } from 'vitest'
 import { size } from '../size'
 
 describe('size', () => {
