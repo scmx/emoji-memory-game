@@ -1,14 +1,15 @@
-import cn from 'classnames'
-import { useSelector } from './Store'
-import { CardContainer } from './Card'
-import { useZoom } from './zoom'
-import { Victory, isVictory } from './Victory'
-import { Score } from './Score'
-import styles from './App.module.css'
+import cn from "classnames";
+import { CardContainer } from "./card/Card";
+import { useZoom } from "./zoom";
+import { Victory } from "./victory/Victory";
+import { Score } from "./score/Score";
+import styles from "./App.module.css";
+import { useSelector } from "./store";
+import { isVictory } from "./victory";
 
 function App() {
-  const ref = useZoom<HTMLDivElement>()
-  const victory = useSelector(isVictory)
+  const ref = useZoom<HTMLDivElement>();
+  const victory = useSelector(isVictory);
 
   return (
     <div
@@ -21,7 +22,7 @@ function App() {
       <CardContainer />
       <Victory />
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

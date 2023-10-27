@@ -28,9 +28,5 @@
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vitest": "^0.34.6"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "semi": false
   }
 }
