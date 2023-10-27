@@ -2,6 +2,8 @@
 
 A kind of memory card game with Emoji symbols on them
 
+Try it here: https://scmx.github.io/emoji-memory-game
+
 ## React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

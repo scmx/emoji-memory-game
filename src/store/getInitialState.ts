@@ -13,8 +13,14 @@ const buildCards = (state: State): State => ({
   cards: generateCards(state.width * state.height),
 });
 
-export const getInitialState = (): State =>
+const defaultMode: "easy" | "normal" =
+  new URLSearchParams(location.search).get("mode") === "easy"
+    ? "easy"
+    : "normal";
+
+export const getInitialState = (mode = defaultMode): State =>
   buildCards({
+    mode,
     width,
     height,
     flipped: [],

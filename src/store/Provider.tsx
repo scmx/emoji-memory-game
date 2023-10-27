@@ -24,15 +24,18 @@ const appReducer: AppReducer = (state, action) => {
       if (state.flipped.length === 0) {
         return { ...nextState, flipped: [cardIndex] };
       }
-      const prevIndex = state.flipped[state.flipped.length - 1];
-      if (state.cards[cardIndex].emoji !== state.cards[prevIndex].emoji) {
-        return { ...nextState, flipped: [prevIndex, cardIndex] };
+      if (state.mode === "normal" && state.flipped.length === 2) {
+        return { ...nextState, flipped: [cardIndex] };
       }
-      return {
-        ...nextState,
-        flipped: [],
-        matched: [...state.matched, state.cards[cardIndex].emoji],
-      };
+      const prevIndex = state.flipped[state.flipped.length - 1];
+      if (state.cards[cardIndex].emoji === state.cards[prevIndex].emoji) {
+        return {
+          ...nextState,
+          flipped: [],
+          matched: [...state.matched, state.cards[cardIndex].emoji],
+        };
+      }
+      return { ...nextState, flipped: [prevIndex, cardIndex] };
     }
     default: {
       return state;
